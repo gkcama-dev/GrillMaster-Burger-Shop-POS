@@ -116,7 +116,7 @@ body {
   box-shadow: 0 4px 20px rgba(255, 127, 42, 0.3);
 }
 
-/* Main Content - Enhanced */
+/* Main Content*/
 .pos-main {
   display: grid;
   grid-template-columns: 1fr 420px;
@@ -130,7 +130,7 @@ body {
   }
 }
 
-/* Product Catalog - Modernized */
+/* Product Catalog */
 .product-catalog {
   padding: 32px;
   overflow-y: auto;
@@ -216,7 +216,7 @@ body {
   height: 100px;
 }
 
-/* Product Grid - Enhanced */
+/* Product Grid*/
 .product-grid {
   margin-top: 24px;
   display: grid;
@@ -283,7 +283,7 @@ body {
   font-weight: 700;
 }
 
-/* Cart - Modernized */
+/* Cart*/
 .cart-container {
   background: var(--bg-light);
   border-left: 1px solid var(--border-light);
@@ -455,7 +455,7 @@ body {
   box-shadow: 0 12px 40px rgba(255, 127, 42, 0.4);
 }
 
-/* Payment Method Dropdown - Enhanced */
+/* Payment Method Dropdown*/
 .form-select {
   width: 100%;
   padding: 14px;
@@ -474,7 +474,7 @@ body {
   box-shadow: 0 0 0 3px rgba(255, 127, 42, 0.1);
 }
 
-/* Mobile Cart Bar - Enhanced */
+/* Mobile Cart Bar*/
 .mobile-cart-bar {
   display: none;
   position: fixed;
@@ -522,7 +522,7 @@ body {
   box-shadow: 0 8px 24px rgba(255, 127, 42, 0.4);
 }
 
-/* Receipt - Enhanced */
+/* Receipt*/
 .receipt-container {
   display: none;
   background: white;
