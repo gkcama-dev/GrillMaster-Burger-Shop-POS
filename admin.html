@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GrillMaster Admin Panel</title>
+
+    <link rel="stylesheet" href="css/admin.css"/>
+
+
+</head>
+
+<body>
+
+    <header>
+        <h2>GrillMaster Admin Panel</h2>
+        <button id="moveToPOS" class="toggle-btn">POS</button>
+    </header>
+
+    <div class="tabs">
+        <div class="tab active" data-target="products">Products</div>
+        <div class="tab" data-target="customers">Customers</div>
+        <div class="tab" data-target="orders">Orders</div>
+    </div>
+
+    <!-- PRODUCTS PANEL -->
+    <div id="products" class="panel active">
+
+        <div class="card">
+            <h3>Add Product</h3>
+
+            <input type="text" id="prod-name" placeholder="Product Name" />
+            <input type="number" id="prod-price" placeholder="Price" />
+            <select id="prod-category">
+                <option value="burgers">Burgers</option>
+                <option value="sides">Sides</option>
+                <option value="drinks">Drinks</option>
+                <option value="desserts">Desserts</option>
+            </select>
+            <input type="text" id="prod-image" placeholder="Image URL" />
+
+            <button onclick="addProduct()">Add Product</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price (Rs)</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="product-table-body"></tbody>
+        </table>
+    </div>
+
+    <!-- CUSTOMERS PANEL -->
+    <div id="customers" class="panel">
+
+        <div class="card">
+            <h3>Add Customer</h3>
+            <input type="text" id="cust-name" placeholder="Customer Name" />
+            <button onclick="addCustomer()">Add Customer</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody id="customer-table-body"></tbody>
+        </table>
+    </div>
+
+    <!-- ORDERS PANEL -->
+    <div id="orders" class="panel">
+        <h3>Order History</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Date</th>
+                    <th>Total (Rs)</th>
+                    <th>Items</th>
+                </tr>
+            </thead>
+            <tbody id="order-table-body"></tbody>
+        </table>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/seed.js"></script>
+    <script src="js/admin.js"></script>
+
+
+</body>
+
+</html>
