@@ -4,13 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GrillMaster Burger Shop POS</title>
+    <title>Grill Master Burger Shop POS</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image-icon" href="assets/logo/logo.png">
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Main stylesheet -->
     <link rel="stylesheet" href="css/style.css">
+
+    
 </head>
 
 <body>
@@ -20,21 +25,24 @@
 
             <!-- header -->
             <header class="pos-header">
-                <div class="logo">GrillMaster <span class="logo-accent">POS</span></div>
+                <a class="logo" href="index.html">
+                    <img src="./assets/logo/logo.png" alt="GrillMaster POS" class="logo-img">
+                    <div class="logo-text">GrillMaster <span class="logo-accent">POS</span></div>
+                </a>
 
                 <div class="header-actions">
-                    <button id="" class="btn btn-ghost active">POS</button>
-                    <button id="" class="btn btn-ghost">Admin</button>
+                    <button id="pos-view-btn" class="btn btn-ghost active">POS</button>
+                    <button id="admin-link" class="btn btn-ghost">Admin</button>
                 </div>
             </header>
 
             <!-- Main Content -->
-            <main class="pos-main" id="">
+            <main class="pos-main" id="pos-view">
                 <!-- Product Catalog -->
                 <section class="product-catalog">
                     <div class="top-controls">
-                        <input type="search" class="search-input" id="" placeholder="Search Products..." />
-                        <div class="category-chips" id="">
+                        <input type="search" class="search-input" id="search-input" placeholder="Search Products..." />
+                        <div class="category-chips" id="category-chips">
                             <button class="category-chip active" data-category="all">All</button>
                             <button class="category-chip" data-category="burgers">Burgers</button>
                             <button class="category-chip" data-category="sides">Sides</button>
@@ -43,17 +51,34 @@
                         </div>
                     </div>
 
-                    <div class="product-grid" id="" aria-live="polite">
+                    <div class="product-grid" id="product-grid" aria-live="polite">
                         <!-- JS will render product cards here -->
+                        <!-- <div class="product-image">
+                            <img src="./assets/Burgers/DoubleBeefSmashBurger.jpg" alt="">
+                        </div>
+                        <div class="product-info">
+                            <h4></h4>
+                            <p class="price">Rs </p>
+                            <button class="add-btn" data-id="${product.id}">
+                                Add to Order
+                            </button>
+                        </div> -->
                     </div>
                 </section>
 
                 <!-- Cart -->
-                <aside class="cart-container" id="" aria-labelledby="cart-title">
+                <aside class="cart-container" id="cart-container" aria-labelledby="cart-title">
                     <div class="cart-header">
                         <div>
-                            <div class="cart-title" id="">Order Summary</div>
-                            <div class="cart-subtitle" id="">No items yet</div>
+                            <div class="cart-title" id="cart-title">Order Summary</div>
+                            <div class="cart-subtitle" id="cart-subtitle">No items yet</div>
+
+                            <!-- Customer name input -->
+                            <div class="cart-customer">
+                                <label for="customer-name" class="customer-label-modern">Customer Name</label>
+                                <!-- raw customer input -->
+                                <input id="customer-name" type="text" placeholder="Enter customer name..." class="customer-input-glass" />
+                            </div>
                         </div>
                         <button id="cart-close" class="cart-close" aria-label="Close cart">&times;</button>
                     </div>
@@ -63,10 +88,10 @@
                     </div>
 
                     <div class="cart-footer">
-                        <div class="cart-totals" id="">
+                        <div class="cart-totals" id="cart-totals">
                             <div class="total-row">
                                 <span class="total-label">Subtotal</span>
-                                <span class="total-amount" id="">Rs 0.00</span>
+                                <span class="total-amount" id="subtotal">Rs 0.00</span>
                             </div>
                             <div class="total-row">
                                 <span class="total-label">Tax (8%)</span>

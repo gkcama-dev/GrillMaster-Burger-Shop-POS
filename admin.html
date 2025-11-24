@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grill Master Admin Panel</title>
+
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image-icon" href="assets/logo/logo.png">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body>
+   <!-- header -->
+            <header class="pos-header">
+                <a class="logo" href="index.html">
+                    <img src="./assets/logo/logo.png" alt="GrillMaster POS" class="logo-img">
+                    <div class="logo-text">GrillMaster <span class="logo-accent">POS</span></div>
+                </a>
+
+                <div class="header-actions">
+                    <button id="moveToPOS" class="btn btn-ghost active">POS</button>
+                </div>
+            </header>
+
+    <div class="tabs">
+        <div class="tab active" data-target="products">Products</div>
+        <div class="tab" data-target="customers">Customers</div>
+        <div class="tab" data-target="orders">Orders</div>
+    </div>
+
+    <!-- PRODUCTS PANEL -->
+    <div id="products" class="panel active">
+        <div class="card">
+            <h3>Add Product</h3>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="prod-name">Product Name</label>
+                    <input type="text" id="prod-name" />
+                </div>
+
+                <div class="form-group">
+                    <label for="prod-price">Price (Rs)</label>
+                    <input type="number" id="prod-price" min="0" />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="prod-category">Category</label>
+                    <select id="prod-category">
+                        <option value="">Select</option>
+                        <option value="burgers">Burgers</option>
+                        <option value="sides">Sides</option>
+                        <option value="drinks">Drinks</option>
+                        <option value="desserts">Desserts</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- IMAGE UPLOADER -->
+            <div class="image-upload-container">
+                <label>Product Image</label>
+                <div class="image-preview" id="image-preview">
+                    <div class="image-preview-placeholder">No image selected</div>
+                </div>
+
+                <div class="file-input-wrapper">
+                    <div class="file-input-button">Choose Image</div>
+                    <input type="file" id="prod-image" accept="image/*" />
+                </div>
+
+                <div class="file-name" id="file-name">No file chosen</div>
+            </div>
+
+            <button onclick="addProduct()">Add Product</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Price (Rs)</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="product-table-body"></tbody>
+        </table>
+    </div>
+
+    <!-- CUSTOMERS PANEL -->
+    <div id="customers" class="panel">
+        <div class="card">
+            <h3>Add Customer</h3>
+            <input type="text" id="cust-name" placeholder="Customer Name" />
+            <button onclick="addCustomer()">Add Customer</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody id="customer-table-body"></tbody>
+        </table>
+    </div>
+
+    <!-- ORDERS PANEL -->
+    <div id="orders" class="panel">
+        <h3>Order History</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Date</th>
+                    <th>Total (Rs)</th>
+                    <th>Items</th>
+                </tr>
+            </thead>
+            <tbody id="order-table-body"></tbody>
+        </table>
+    </div>
+
+    <!-- JS -->
+    <script src="js/admin.js"></script>
+</body>
+</html>
