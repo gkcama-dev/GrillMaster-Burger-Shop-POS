@@ -140,3 +140,82 @@ function updateCartUI() {
         </div>
     `).join("");
 }
+
+// Checkout / Save order with customer name
+const checkoutBtn = document.getElementById("checkout-button");
+if (checkoutBtn) {
+    checkoutBtn.addEventListener("click", handleCheckout);
+}
+
+function handleCheckout() {
+    if (cart.length === 0) {
+        alert("Cart is empty");
+        return;
+    }
+
+    const customerInput = document.getElementById("customer-name");
+    const customerName = customerInput && customerInput.value.trim() ? customerInput.value.trim() : "Walk-in";
+
+    const totals = calculateTotals();
+
+    const order = {
+        id: (typeof crypto !== "undefined" && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()),
+        date: new Date().toISOString(),
+        customer: customerName,
+        items: cart.map(i => ({
+            productId: i.productId,
+            name: i.name,
+            price: i.price,
+            qty: i.qty
+        })),
+        subtotal: totals.subtotal,
+        tax: totals.tax,
+        total: totals.total
+    };
+
+    // Save to localStorage (gm_orders) — admin panel reads this key
+    try {
+        const existing = JSON.parse(localStorage.getItem("gm_orders") || "[]");
+        existing.push(order);
+        localStorage.setItem("gm_orders", JSON.stringify(existing));
+    } catch (e) {
+        console.error("Failed to save order", e);
+    }
+
+    // Optional: populate receipt area and print (light implementation)
+    const receiptEl = document.getElementById("receipt");
+    if (receiptEl) {
+        const receiptDate = document.getElementById("receipt-date");
+        const receiptOrderId = document.getElementById("receipt-order-id");
+        const receiptItems = document.getElementById("receipt-items");
+        const receiptSubtotal = document.getElementById("receipt-subtotal");
+        const receiptTax = document.getElementById("receipt-tax");
+        const receiptTotal = document.getElementById("receipt-total");
+
+        if (receiptDate) receiptDate.textContent = `Date: ${new Date(order.date).toLocaleString()}`;
+        if (receiptOrderId) receiptOrderId.textContent = `Order: ${order.id}`;
+        if (receiptItems) receiptItems.innerHTML = order.items.map(it => `<div>${it.qty} x ${it.name} — Rs ${ (it.price * it.qty).toFixed(2)}</div>`).join("");
+        if (receiptSubtotal) receiptSubtotal.textContent = `Rs ${order.subtotal.toFixed(2)}`;
+        if (receiptTax) receiptTax.textContent = `Rs ${order.tax.toFixed(2)}`;
+        if (receiptTotal) receiptTotal.textContent = `Rs ${order.total.toFixed(2)}`;
+
+        receiptEl.setAttribute("aria-hidden", "false");
+        // Uncomment to auto-print:
+        // window.print();
+    }
+
+    // Clear cart and UI
+    clearCart();
+    if (customerInput) customerInput.value = "";
+
+    // Bootstrap toast success (fallback to alert if toast not available)
+    const toastEl = document.getElementById("checkout-toast");
+    if (toastEl && window.bootstrap) {
+        const bodyEl = toastEl.querySelector(".toast-body");
+        if (bodyEl) bodyEl.textContent = `Order saved for: ${customerName}`;
+        const bsToast = bootstrap.Toast.getOrCreateInstance(toastEl, { delay: 3000 });
+        bsToast.show();
+    } else {
+        alert("Order saved for: " + customerName);
+    }
+}
