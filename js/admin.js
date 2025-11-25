@@ -148,18 +148,44 @@ function deleteCustomer(id) {
 // ORDERS
 function renderAdminOrders() {
     const tbody = document.getElementById("order-table-body");
+    if (!tbody) return;
 
-    tbody.innerHTML = adminOrders
-        .map(
-            (o) => `
-        <tr>
-            <td>${o.id}</td>
-            <td>${o.date}</td>
-            <td>${o.total}</td>
-            <td>${o.items.length} items</td>
-        </tr>`
-        )
-        .join("");
+    const orders = loadData("gm_orders") || [];
+
+    if (orders.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="muted">No orders yet</td></tr>`;
+        return;
+    }
+
+    tbody.innerHTML = orders.map((order, index) => {
+        // Format order ID as GMO-001, GMO-002, etc.
+        const orderNumber = String(index + 1).padStart(3, '0');
+        const formattedOrderId = `GMO-${orderNumber}`;
+
+        const date = order.date ? new Date(order.date).toLocaleString() : "";
+        const total = Number(order.total || 0).toFixed(2);
+        const customer = order.customer || "Walk-in";
+
+        // items detail HTML
+        const itemsHtml = (order.items || []).map(it =>
+            `<div>${it.qty} × ${it.name} — Rs ${(Number(it.price) * Number(it.qty)).toFixed(2)}</div>`
+        ).join("");
+
+        return `
+            <tr>
+                <td>${formattedOrderId}</td>
+                <td>${date}</td>
+                <td>${customer}</td>
+                <td>Rs ${total}</td>
+                <td>
+                    <details>
+                        <summary>${(order.items || []).length} item(s)</summary>
+                        <div style="margin-top:8px">${itemsHtml}</div>
+                    </details>
+                </td>
+            </tr>
+        `;
+    }).join("");
 }
 
 // UI Setup
@@ -178,7 +204,7 @@ function setupUIFeatures() {
     });
 
     document.getElementById("moveToPOS").addEventListener("click", () => {
-         window.location.href = "index.html"; 
+        window.location.href = "index.html";
     });
 }
 
@@ -192,3 +218,4 @@ function initAdmin() {
 }
 
 document.addEventListener("DOMContentLoaded", initAdmin);
+
