@@ -18,6 +18,7 @@ let adminOrders = loadData("gm_orders");
 // Editing state
 let editingProductId = null;
 let pendingDeleteId = null; // <- new
+let editFileData = null;    // <- new: holds chosen image in edit modal
 
 // Image Upload Preview
 function setupImageUpload() {
@@ -56,13 +57,147 @@ function renderAdminProducts() {
             <td>${p.price}</td>
             <td>${p.category}</td>
             <td>
-                <button onclick="editProduct('${p.id}')">Edit</button>
+                <button onclick="openEditModal('${p.id}')">Edit</button>
                 <button onclick="deleteProduct('${p.id}')">Delete</button>
             </td>
         </tr>`
         )
         .join("");
 }
+
+// ===== Edit modal flow =====
+function openEditModal(id) {
+    // handle numeric/string id mismatch
+    const p = adminProducts.find(x => String(x.id) === String(id));
+    if (!p) return alert("Product not found");
+
+    editingProductId = p.id;
+    editFileData = null;
+
+    // preload values
+    const nameEl = document.getElementById("edit-name");
+    const priceEl = document.getElementById("edit-price");
+    const catEl = document.getElementById("edit-category");
+    const preview = document.getElementById("edit-image-preview");
+    const fname = document.getElementById("edit-file-name");
+
+    if (!nameEl || !priceEl || !catEl || !preview || !fname) {
+        console.error("Edit modal elements missing in DOM");
+        return;
+    }
+
+    nameEl.value = p.name || "";
+    priceEl.value = p.price || 0;
+    catEl.value = p.category || "";
+
+    if (p.image) {
+        preview.innerHTML = `<img src="${p.image}">`;
+        fname.textContent = "Current image";
+    } else {
+        preview.innerHTML = `<div class="image-preview-placeholder">No image</div>`;
+        fname.textContent = "No file chosen";
+    }
+
+    setEditInputsEnabled(false);
+    document.getElementById("edit-subtext").textContent = "Review details. Click “Enable Editing” to make changes.";
+    document.getElementById("edit-modal").setAttribute("aria-hidden", "false");
+}
+
+function setEditInputsEnabled(enabled) {
+    const ids = ["edit-name","edit-price","edit-category","edit-image","edit-save"];
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.disabled = (id === "edit-save") ? !enabled : !enabled;
+    });
+}
+
+function setupEditImageUpload() {
+    const fileInput = document.getElementById("edit-image");
+    const preview = document.getElementById("edit-image-preview");
+    const fileName = document.getElementById("edit-file-name");
+    if (!fileInput) return;
+
+    fileInput.addEventListener("change", function () {
+        const file = this.files[0];
+        if (!file) {
+            editFileData = null;
+            preview.innerHTML = `<div class="image-preview-placeholder">No image</div>`;
+            fileName.textContent = "No file chosen";
+            return;
+        }
+        fileName.textContent = file.name;
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            editFileData = e.target.result;
+            preview.innerHTML = `<img src="${editFileData}">`;
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+function closeEditModal() {
+    const modal = document.getElementById("edit-modal");
+    if (modal) modal.setAttribute("aria-hidden", "true");
+    editingProductId = null;
+    editFileData = null;
+}
+
+function saveEditModal() {
+    if (!editingProductId) return closeEditModal();
+
+    const name = document.getElementById("edit-name").value.trim();
+    const price = Number(document.getElementById("edit-price").value);
+    const category = document.getElementById("edit-category").value;
+
+    if (!name || !price || !category) {
+        alert("Fill all fields");
+        return;
+    }
+
+    const idx = adminProducts.findIndex(p => p.id === editingProductId);
+    if (idx === -1) {
+        alert("Original product not found; cannot update.");
+        return closeEditModal();
+    }
+
+    const image = editFileData !== null ? editFileData : (adminProducts[idx].image || "");
+    adminProducts[idx] = { ...adminProducts[idx], name, price, category, image };
+
+    saveData("gm_products", adminProducts);
+    renderAdminProducts();
+    closeEditModal();
+}
+
+function setupEditModal() {
+    const modal = document.getElementById("edit-modal");
+    const btnEnable = document.getElementById("edit-enable");
+    const btnCancel = document.getElementById("edit-cancel");
+    const btnSave = document.getElementById("edit-save");
+
+    if (btnEnable) btnEnable.addEventListener("click", () => {
+        setEditInputsEnabled(true);
+        document.getElementById("edit-subtext").textContent = "Editing enabled. Make changes and click Save.";
+    });
+
+    if (btnCancel) btnCancel.addEventListener("click", (e) => {
+        e.preventDefault();
+        closeEditModal();
+    });
+
+    if (btnSave) btnSave.addEventListener("click", (e) => {
+        e.preventDefault();
+        saveEditModal();
+    });
+
+    if (modal) {
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal) closeEditModal();
+        });
+    }
+
+    setupEditImageUpload();
+}
+// ===== end edit modal flow =====
 
 // Populate form for editing
 function editProduct(id) {
@@ -330,7 +465,8 @@ function initAdmin() {
     renderAdminOrders();
     setupUIFeatures();
     setupImageUpload();
-    setupConfirmModal(); // <- ensure modal is wired
+    setupConfirmModal();
+    setupEditModal(); // wire edit modal
 }
 
 document.addEventListener("DOMContentLoaded", initAdmin);
