@@ -1,104 +1,212 @@
 # GrillMaster POS
 
-Professional, lightweight client-side Point of Sale (POS) system for a burger shop.  
-Built with plain HTML, CSS and JavaScript — perfect for demos, small shops, or as a starting point for a server-backed POS.
+<p>
+  <img src="assets/images/index.png" width="120" />
+  <img src="assets/images/admin.png" width="120" />
+</p>
+
+## Description
+
+GrillMaster POS is a modern, browser-based Point of Sale system designed for restaurants and food service establishments. This single-page application provides an intuitive interface for managing menu items, processing customer orders, and tracking sales data in real-time.
+
+## Features
+
+* **Product Management**: Add, edit, and categorize menu items with images and pricing
+* **Order Processing**: Streamlined order taking with table management
+* **Sales Dashboard**: Real-time sales analytics and order history
+* **Admin Panel**: Comprehensive system management and user controls
+* **Local Data Storage**: Offline-capable with client-side data persistence
+* **Responsive Design**: Works seamlessly across desktop and tablet devices
+
+## Tech Stack
+
+* **Frontend**: HTML5, CSS3, JavaScript (ES6+)
+* **Storage**: localStorage (primary), IndexedDB (fallback for large files)
+* **Styling**: Modern CSS with Flexbox/Grid layouts
+* **Icons**: Font Awesome
+* **Build Tools**: Native JavaScript (no framework dependencies)
+
+## Project Structure
+
+```
+grillmaster-pos/
+├── index.html                  # Main application entry point
+├── css/
+│   ├── styles.css              # Main stylesheet
+│   └── responsive.css          # Responsive design rules
+├── js/
+│   ├── app.js                  # Core application logic
+│   ├── products.js             # Product management module
+│   ├── orders.js               # Order processing module
+│   ├── admin.js                # Admin panel functionality
+│   └── storage.js              # Data persistence layer
+├── assets/
+│   ├── images/                 # Product images and icons
+│   └── uploads/                # User-uploaded images (if implemented)
+└── docs/                       # Documentation
+```
+
+## Quick Start (Windows)
+
+**Option 1:** Double-click the `index.html` file in Windows Explorer.
+
+Access the system using the default admin credentials:
+
+**Username:** `admin`
+**Password:** `grillmaster123`
+
+### Alternative Admin Access
+
+```
+Username: admin
+Password: 123
+```
+
+### Steps
+
+1. Extract the project files to your desired directory.
+2. Launch the application by opening `index.html` in a web browser:
+
+   ```cmd
+   start index.html
+   ```
 
 ---
 
-## Key features
-- Product catalog with categories, search and responsive grid
-- Add-to-order cart with per-line quantities, subtotal / tax / total
-- Capture customer name per order and save orders
-- Admin panel: add / edit / delete products & customers, view order history
-- Local image upload with preview for products (compressed & fallback handling)
-- Mobile-friendly cart UI with slide-up panel and mobile cart bar
-- Client-side admin login (session-based)
-- Data persisted in browser storage (localStorage); optional IndexedDB image pattern available
+## Data Storage & Image Handling
+
+### Storage Limits
+
+* **localStorage:** ~5–10MB depending on browser
+* **IndexedDB:** Much larger (typically up to 50% of disk space)
+
+### Image Storage Strategy
+
+* Small thumbnails → stored in localStorage
+* Large images → automatically stored in IndexedDB
+
+### Resetting Storage
+
+Execute this in the browser console to clear all saved data:
+
+```javascript
+localStorage.clear();
+indexedDB.deleteDatabase('GrillMasterPOS');
+console.log('All application data has been reset.');
+```
 
 ---
 
-## Project structure
-- `index.html` — POS interface
-- `admin.html` — Admin interface
-- `css/` — styles (`style.css`, `admin.css`)
-- `js/` — scripts (`pos.js`, `cart.js`, `admin.js`, `storage.js`, `seed.js`)
-- `assets/` — logos and sample images
+## Usage
 
----
+### Adding Products
 
-## Quick start (Windows)
+1. Go to **Admin Panel > Products**
+2. Click **Add New Product**
+3. Fill in details (name, price, category)
+4. Upload image (recommended < 2MB)
+5. Save
 
-Requirements: modern browser (Chrome/Edge/Firefox). Node is optional for a local static server.
+### Taking Orders
 
-1. Open project in VS Code:
-   - d:\ICET\Internet Technologies\GrillMaster POS
-2. Recommended: run a local static server (prevents some file/loading restrictions)
-   - With npm:  
-     Open PowerShell in project folder and run:
-     ```
-     npx http-server -c-1
-     ```
-   - Or use the Live Server VS Code extension: Right‑click `index.html` → *Open with Live Server*
-3. Open the served URL (eg. `http://127.0.0.1:8080`) or open `index.html` in a browser.
+* From dashboard → click **New Order**
+* Select table number or **Takeaway**
+* Add menu items & quantities
+* Apply discounts
+* Process payment & print receipt
 
----
+### Viewing Orders
 
-## Admin access
-- Default client-side credential (change for production):
-  - Username: `admin`
-  - Password: `gmadmin`
-- On successful login a short session is stored in `sessionStorage` and user is redirected to `admin.html`.
-- To add additional admin users, store an array under localStorage key `gm_admins`:
-  ```json
-  [{ "username": "alice", "password": "alicepass" }]
-  ```
-
----
-
-## Data storage details
-- Products: `localStorage` key `gm_products`
-- Customers: `localStorage` key `gm_customers`
-- Orders: `localStorage` key `gm_orders`
-- Images: stored inline as compressed data-URLs by default. Large images may exceed localStorage quota — the admin implementation:
-  - compresses images before saving;
-  - falls back to saving product without image if quota exceeded;
-  - optional IndexedDB helper is available in the code to store image blobs and reference them from `localStorage`.
-
-Order IDs in admin list are displayed as `GMO-001`, `GMO-002`, etc.
+* **Active Orders:** Visible on main dashboard
+* **Order History:** Admin Panel → Orders
+* **Order ID Format:** `GMO-001`, `GMO-002` (sequential)
 
 ---
 
 ## Troubleshooting
-- QuotaExceededError when adding images:
-  - Use smaller images, or
-  - Clear localStorage keys (DevTools → Application → Local Storage) or run:
-    ```javascript
-    localStorage.removeItem('gm_products');
-    localStorage.removeItem('gm_orders');
-    location.reload();
-    ```
-  - Consider enabling the IndexedDB image storage option in `admin.js` (recommended for production).
-- If UI scripts do not work, verify script load order in `index.html`:
-  - `storage.js`, `seed.js`, `cart.js`, `pos.js` (order matters).
+
+### "Storage Quota Exceeded"
+
+**Cause:** Large images exceeding localStorage limits
+**Fix:** IndexedDB fallback happens automatically. Compress images to under 1MB.
+
+### Login Failures
+
+Reset admin credentials in console:
+
+```javascript
+localStorage.setItem('adminCredentials', JSON.stringify({
+  username: 'admin',
+  password: 'grillmaster123'
+}));
+```
+
+### Order Not Processing
+
+* Clear browser cache
+* Reload application
+* Check JavaScript console for errors
+
+### Slow Performance
+
+* Limit high-resolution product images
+* Clear old order history
 
 ---
 
-## Development notes
-- This is a client-only prototype. For production:
-  - Move auth and persistence to a backend (do not use client-side passwords).
-  - Use a server or IndexedDB for robust image and order storage.
-  - Add proper validation, error handling, and concurrency safeguards.
-- Useful improvements:
-  - Receipt printing / PDF export
-  - Inventory tracking & low-stock alerts
-  - POS hardware integration (receipt printer, cash drawer, barcode scanner)
+## Development Notes & Recommendations
+
+### Security
+
+* Add server-side authentication for production
+* Encrypt sensitive data
+* Implement input validation & XSS protection
+
+### Scalability
+
+* Use backend DB (MySQL/PostgreSQL) for multi-user setups
+* Add REST API
+* Add user role management
+
+### Image Optimization
+
+* Use client-side compression
+* Prefer IndexedDB for all images
+* Use cloud storage (AWS S3 / Firebase) for production
+
+### Production Features
+
+* Receipt printing integration
+* Barcode scanning support
+* Multi-terminal sync
+* Backup/restore
 
 ---
 
-## Contributing
-Fork the repo, create a feature branch, and open a pull request with a clear description. Keep changes scoped and include any migration notes for storage changes.
+## Contribution
+
+1. Fork the repository
+2. Create a feature branch:
+
+   ```bash
+   git checkout -b feature/improvement
+   ```
+3. Commit your changes:
+
+   ```bash
+   git commit -am "Add new feature"
+   ```
+4. Push the branch:
+
+   ```bash
+   git push origin feature/improvement
+   ```
+5. Create Pull Request
 
 ---
 
 ## License
-MIT — modify as needed for your project.
+
+MIT License — see the `LICENSE` file.
+
+**MIT Summary:** Free permission to use, modify, distribute, and sell, as long as attribution is included.
