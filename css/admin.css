@@ -381,6 +381,54 @@ tr:last-child td {
   border-radius: 6px;
 }
 
+/* Confirm modal */
+.confirm-modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(6,6,6,0.5);
+    z-index: 4000;
+    padding: 20px;
+}
+.confirm-modal[aria-hidden="false"] {
+    display: flex;
+}
+.confirm-panel {
+    width: 420px;
+    max-width: 100%;
+    background: var(--card-bg, #121212);
+    border-radius: 10px;
+    padding: 18px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.04);
+    color: #fff;
+}
+.confirm-panel h4 {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+}
+.confirm-panel p {
+    margin: 0 0 14px 0;
+    color: rgba(255,255,255,0.8);
+}
+.confirm-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+.btn-danger {
+    background: #e5533b;
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.btn-danger:hover { filter: brightness(0.95); }
+
 /* MOBILE RESPONSIVE */
 @media (max-width: 768px) {
   .pos-header {

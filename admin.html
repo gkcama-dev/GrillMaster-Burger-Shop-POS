@@ -9,6 +9,10 @@
     <!-- Favicon -->
     <link rel="icon" type="image-icon" href="assets/logo/logo.png">
 
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
     <!-- CSS -->
     <link rel="stylesheet" href="css/admin.css">
 </head>
@@ -129,6 +133,18 @@
             </thead>
             <tbody id="order-table-body"></tbody>
         </table>
+    </div>
+
+    <!-- CONFIRM DELETE MODAL -->
+    <div id="confirm-modal" class="confirm-modal" aria-hidden="true">
+        <div class="confirm-panel" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+            <h4 id="confirm-title">Confirm delete</h4>
+            <p id="confirm-text">Are you sure you want to delete this item?</p>
+            <div class="confirm-actions">
+                <button id="confirm-cancel" class="btn btn-ghost">Cancel</button>
+                <button id="confirm-ok" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
     </div>
 
     <!-- JS -->
