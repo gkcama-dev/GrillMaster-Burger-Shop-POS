@@ -179,6 +179,49 @@
                 </form>
               </div>
             </div>
+
+            <!-- Mobile Cart Modal (separate from desktop cart) -->
+            <div id="mobile-cart-modal" class="mobile-cart-modal" aria-hidden="true" role="dialog" aria-modal="true">
+                <div class="mobile-cart-modal-content">
+                    <div class="mobile-cart-header">
+                        <h2>Order Summary</h2>
+                        <button id="mobile-cart-close" class="mobile-cart-close" aria-label="Close cart">&times;</button>
+                    </div>
+
+                    <div class="cart-customer" style="padding: 0 16px; margin-bottom: 16px;">
+                        <label for="mobile-customer-name" class="customer-label-modern">Customer Name</label>
+                        <input id="mobile-customer-name" type="text" placeholder="Enter customer name..." class="customer-input-glass" />
+                    </div>
+
+                    <div class="mobile-cart-items" id="mobile-cart-items" role="list">
+                        <!-- JS will render cart items -->
+                    </div>
+
+                    <div class="mobile-cart-footer">
+                        <div class="mobile-cart-totals">
+                            <div class="total-row">
+                                <span class="total-label">Subtotal</span>
+                                <span class="total-amount" id="mobile-subtotal">Rs 0.00</span>
+                            </div>
+                            <div class="total-row">
+                                <span class="total-label">Tax (8%)</span>
+                                <span class="total-amount" id="mobile-tax">Rs 0.00</span>
+                            </div>
+                            <div class="total-row">
+                                <span class="total-label">Total</span>
+                                <span class="total-amount" id="mobile-total">Rs 0.00</span>
+                            </div>
+                        </div>
+
+                        <select id="mobile-payment-method" class="form-select">
+                            <option value="cash">Cash</option>
+                            <option value="card">Card</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <button id="mobile-checkout-button" class="checkout-button">Complete Order</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

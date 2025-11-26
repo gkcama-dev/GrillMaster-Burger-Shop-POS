@@ -141,6 +141,47 @@ function updateCartUI() {
     `).join("");
 }
 
+// Render mobile cart items (mirrors updateCartDisplay but targets mobile elements)
+function renderMobileCartItems() {
+    const cartItems = document.getElementById("mobile-cart-items");
+    if (!cartItems) return;
+
+    const totals = calculateTotals();
+
+    // Update mobile totals
+    const mobileSubtotal = document.getElementById("mobile-subtotal");
+    const mobileTax = document.getElementById("mobile-tax");
+    const mobileTotal = document.getElementById("mobile-total");
+
+    if (mobileSubtotal) mobileSubtotal.textContent = "Rs " + totals.subtotal.toFixed(2);
+    if (mobileTax) mobileTax.textContent = "Rs " + totals.tax.toFixed(2);
+    if (mobileTotal) mobileTotal.textContent = "Rs " + totals.total.toFixed(2);
+
+    if (cart.length === 0) {
+        cartItems.innerHTML = `<p class="empty-cart">Your cart is empty</p>`;
+        return;
+    }
+
+    cartItems.innerHTML = cart.map(item => `
+        <div class="cart-item">
+            <div class="item-details">
+                <span class="item-name">${item.name}</span>
+                <span class="item-price">Rs ${item.price}</span>
+            </div>
+
+            <div class="item-quantity">
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="decrementItem(${item.productId})">-</button>
+                    <span>${item.qty}</span>
+                    <button class="qty-btn" onclick="incrementItem(${item.productId})">+</button>
+                </div>
+
+                <span class="item-total">Rs ${(item.price * item.qty).toFixed(2)}</span>
+            </div>
+        </div>
+    `).join("");
+}
+
 // Checkout / Save order with customer name
 const checkoutBtn = document.getElementById("checkout-button");
 if (checkoutBtn) {

@@ -6,10 +6,16 @@
   --accent: #ff7f2a;
   --accent-move: #e64514;
   --border: #333;
+  --border-light: #444;
   --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* GENERAL */
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -18,16 +24,16 @@ body {
   font-family: "Inter", sans-serif;
   transition: background 0.3s ease, color 0.3s ease;
   line-height: 1.6;
+  min-height: 100vh;
 }
 
-h2,
-h3 {
+h2, h3 {
   margin: 0 0 15px 0;
 }
 
 /* Header - Modernized */
 .pos-header {
-  padding: 16px 32px;
+  padding: 16px 20px;
   background: rgba(26, 26, 26, 0.95);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border-light);
@@ -37,6 +43,8 @@ h3 {
   position: sticky;
   top: 0;
   z-index: 100;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
 /* Logo container */
@@ -77,6 +85,7 @@ h3 {
   display: flex;
   gap: 12px;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 button {
@@ -86,8 +95,9 @@ button {
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  transition: 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-weight: 500;
+  font-family: inherit;
 }
 
 button:hover {
@@ -95,8 +105,7 @@ button:hover {
   transform: translateY(-2px);
 }
 
-input,
-select {
+input, select {
   padding: 10px;
   width: 100%;
   margin-bottom: 15px;
@@ -107,10 +116,10 @@ select {
   outline: none;
   transition: 0.2s;
   box-sizing: border-box;
+  font-family: inherit;
 }
 
-input:focus,
-select:focus {
+input:focus, select:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 2px rgba(255, 98, 48, 0.2);
 }
@@ -125,6 +134,8 @@ header {
   align-items: center;
   border-bottom: 2px solid var(--border);
   box-shadow: var(--shadow);
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
 .btn {
@@ -139,6 +150,7 @@ header {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  font-family: inherit;
 }
 
 .btn::before {
@@ -178,10 +190,17 @@ header {
 /* TABS */
 .tabs {
   display: flex;
-  gap: 15px;
-  padding: 20px;
+  gap: 10px;
+  padding: 15px;
   background: var(--card);
   border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .tab {
@@ -191,6 +210,8 @@ header {
   cursor: pointer;
   transition: 0.2s;
   border: 1px solid var(--border);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .tab.active {
@@ -212,9 +233,9 @@ header {
 /* CARDS */
 .card {
   background: var(--card);
-  padding: 25px;
+  padding: 20px;
   border-radius: 12px;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
 }
@@ -224,10 +245,12 @@ header {
   display: flex;
   gap: 15px;
   margin-bottom: 15px;
+  flex-wrap: wrap;
 }
 
 .form-group {
   flex: 1;
+  min-width: 200px;
 }
 
 .form-group label {
@@ -303,20 +326,24 @@ header {
   margin-top: 8px;
   font-size: 14px;
   color: var(--text);
+  word-break: break-all;
 }
 
 /* TABLES */
+.table-container {
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
   background: var(--card);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: var(--shadow);
+  min-width: 600px;
 }
 
-th,
-td {
+th, td {
   padding: 14px;
   text-align: left;
   border-bottom: 1px solid var(--border);
@@ -331,8 +358,16 @@ tr:last-child td {
   border-bottom: none;
 }
 
-td button {
-  margin-right: 10px;
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.action-buttons button {
+  margin: 0;
+  padding: 6px 12px;
+  font-size: 0.85rem;
 }
 
 .product-image-cell {
@@ -348,29 +383,175 @@ td button {
 
 /* MOBILE RESPONSIVE */
 @media (max-width: 768px) {
-  .tabs {
-    flex-wrap: wrap;
+  .pos-header {
+    padding: 12px 15px;
+    flex-direction: column;
+    align-items: stretch;
   }
-
+  
+  .logo {
+    justify-content: center;
+  }
+  
+  .header-actions {
+    justify-content: center;
+  }
+  
+  .tabs {
+    padding: 10px;
+    gap: 8px;
+  }
+  
+  .tab {
+    padding: 8px 14px;
+    font-size: 0.9rem;
+  }
+  
+  .panel {
+    padding: 15px;
+  }
+  
+  .card {
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+  
   .form-row {
     flex-direction: column;
+    gap: 10px;
   }
-
+  
+  .form-group {
+    min-width: 100%;
+  }
+  
+  .image-preview {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 15px;
+  }
+  
   table {
     font-size: 14px;
+    min-width: 500px;
   }
-
-  th,
-  td {
-    padding: 10px;
+  
+  th, td {
+    padding: 10px 8px;
   }
-
+  
   .product-image-cell {
     width: 60px;
   }
-
+  
   .product-image-cell img {
     width: 50px;
     height: 50px;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+  }
+  
+  .action-buttons button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+  
+  .pos-header {
+    padding: 10px;
+  }
+  
+  .logo-text {
+    font-size: 1.3rem;
+  }
+  
+  .logo-img {
+    height: 32px;
+  }
+  
+  .header-actions {
+    gap: 8px;
+  }
+  
+  button {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+  }
+  
+  .tabs {
+    padding: 8px;
+  }
+  
+  .tab {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+  
+  .panel {
+    padding: 10px;
+  }
+  
+  .card {
+    padding: 12px;
+    border-radius: 8px;
+  }
+  
+  input, select {
+    padding: 8px;
+    font-size: 14px;
+  }
+  
+  .image-preview {
+    width: 100px;
+    height: 100px;
+  }
+  
+  th, td {
+    padding: 8px 6px;
+  }
+  
+  .product-image-cell {
+    width: 50px;
+  }
+  
+  .product-image-cell img {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121212;
+    --text: #e5e5e5;
+    --card: #1e1e1e;
+  }
+}
+
+/* High contrast support */
+@media (prefers-contrast: high) {
+  :root {
+    --border: #fff;
+    --accent: #ff4500;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .btn::before {
+    display: none;
   }
 }

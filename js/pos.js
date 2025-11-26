@@ -168,3 +168,36 @@ function initPOS() {
 }
 
 initPOS();
+
+// Mobile cart modal handlers
+const mobileCartModal = document.getElementById("mobile-cart-modal");
+const mobileCartClose = document.getElementById("mobile-cart-close");
+const viewCartBtn = document.getElementById("view-cart-button");
+
+function openMobileCart() {
+  if (mobileCartModal) {
+    mobileCartModal.setAttribute("aria-hidden", "false");
+    renderMobileCartItems();
+  }
+}
+
+function closeMobileCart() {
+  if (mobileCartModal) {
+    mobileCartModal.setAttribute("aria-hidden", "true");
+  }
+}
+
+if (viewCartBtn) {
+  viewCartBtn.addEventListener("click", openMobileCart);
+}
+
+if (mobileCartClose) {
+  mobileCartClose.addEventListener("click", closeMobileCart);
+}
+
+// Close modal on backdrop click
+if (mobileCartModal) {
+  mobileCartModal.addEventListener("click", (e) => {
+    if (e.target === mobileCartModal) closeMobileCart();
+  });
+}
