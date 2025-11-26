@@ -188,19 +188,65 @@ if (checkoutBtn) {
     checkoutBtn.addEventListener("click", handleCheckout);
 }
 
+// Wire mobile checkout button to same handler
+const mobileCheckoutBtn = document.getElementById("mobile-checkout-button");
+if (mobileCheckoutBtn) {
+  mobileCheckoutBtn.addEventListener("click", () => {
+    const mobileCustomerInput = document.getElementById("mobile-customer-name");
+    const customerInput = document.getElementById("customer-name");
+    if (mobileCustomerInput && customerInput) {
+      customerInput.value = mobileCustomerInput.value;
+    }
+    handleCheckout();
+  });
+}
+
 function handleCheckout() {
     if (cart.length === 0) {
-        alert("Cart is empty");
+        // alert("Cart is empty");
+        const orderSuccessModal = document.getElementById("order-success-modal");
+        const orderSuccessOk = document.getElementById("order-success-ok");
+        const orderSuccessTitle = document.getElementById("order-success-title");
+        const orderSuccessText = document.getElementById("order-success-text");
+        const orderSuccessId = document.getElementById("order-success-id");
+        const orderSuccessTotal = document.getElementById("order-success-total");
+
+        if (orderSuccessTitle) orderSuccessTitle.textContent = "Cannot Checkout";
+        if (orderSuccessText) orderSuccessText.textContent = "Your cart is empty.";
+        if (orderSuccessId) orderSuccessId.textContent = "";
+        if (orderSuccessTotal) orderSuccessTotal.textContent = "";
+
+        if (orderSuccessModal) {
+            orderSuccessModal.setAttribute("aria-hidden", "false");
+
+            if (orderSuccessOk && !orderSuccessOk._wiredEmpty) {
+                orderSuccessOk.addEventListener("click", () => {
+                    orderSuccessModal.setAttribute("aria-hidden", "true");
+                    // Restore default text after close (optional)
+                    if (orderSuccessTitle) orderSuccessTitle.textContent = "Order Successful";
+                    if (orderSuccessText) orderSuccessText.textContent = "Your order has been placed successfully.";
+                });
+                orderSuccessOk._wiredEmpty = true;
+            }
+
+            orderSuccessModal.addEventListener("click", (e) => {
+                if (e.target === orderSuccessModal) {
+                    orderSuccessModal.setAttribute("aria-hidden", "true");
+                    if (orderSuccessTitle) orderSuccessTitle.textContent = "Order Successful";
+                    if (orderSuccessText) orderSuccessText.textContent = "Your order has been placed successfully.";
+                }
+            });
+        }
         return;
     }
 
     const customerInput = document.getElementById("customer-name");
-    const customerName = customerInput && customerInput.value.trim() ? customerInput.value.trim() : "Walk-in";
+    const customerName = customerInput && customerInput.value.trim() ? customerInput.value.trim() : "Guest";
 
     const totals = calculateTotals();
 
     const order = {
-        id: (typeof crypto !== "undefined" && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now()),
+        id: getNextOrderId(),                  // GMO-001, GMO-002, ...
         date: new Date().toISOString(),
         customer: customerName,
         items: cart.map(i => ({
@@ -214,7 +260,7 @@ function handleCheckout() {
         total: totals.total
     };
 
-    // Save to localStorage (gm_orders) — admin panel reads this key
+    // Save to localStorage
     try {
         const existing = JSON.parse(localStorage.getItem("gm_orders") || "[]");
         existing.push(order);
@@ -223,40 +269,91 @@ function handleCheckout() {
         console.error("Failed to save order", e);
     }
 
-    // Optional: populate receipt area and print (light implementation)
-    const receiptEl = document.getElementById("receipt");
-    if (receiptEl) {
-        const receiptDate = document.getElementById("receipt-date");
-        const receiptOrderId = document.getElementById("receipt-order-id");
-        const receiptItems = document.getElementById("receipt-items");
-        const receiptSubtotal = document.getElementById("receipt-subtotal");
-        const receiptTax = document.getElementById("receipt-tax");
-        const receiptTotal = document.getElementById("receipt-total");
+    // Populate receipt modal and show
+    const receiptModal = document.getElementById("receipt-modal");
+    if (receiptModal) {
+        const dateEl = document.getElementById("modal-receipt-date");
+        const idEl = document.getElementById("modal-receipt-order-id");
+        const custEl = document.getElementById("modal-receipt-customer");
+        const itemsEl = document.getElementById("modal-receipt-items");
+        const subEl = document.getElementById("modal-receipt-subtotal");
+        const taxEl = document.getElementById("modal-receipt-tax");
+        const totalEl = document.getElementById("modal-receipt-total");
 
-        if (receiptDate) receiptDate.textContent = `Date: ${new Date(order.date).toLocaleString()}`;
-        if (receiptOrderId) receiptOrderId.textContent = `Order: ${order.id}`;
-        if (receiptItems) receiptItems.innerHTML = order.items.map(it => `<div>${it.qty} x ${it.name} — Rs ${ (it.price * it.qty).toFixed(2)}</div>`).join("");
-        if (receiptSubtotal) receiptSubtotal.textContent = `Rs ${order.subtotal.toFixed(2)}`;
-        if (receiptTax) receiptTax.textContent = `Rs ${order.tax.toFixed(2)}`;
-        if (receiptTotal) receiptTotal.textContent = `Rs ${order.total.toFixed(2)}`;
+        if (dateEl) dateEl.textContent = new Date(order.date).toLocaleString();
+        if (idEl) idEl.textContent = order.id;            // show exact same ID as admin
+        if (custEl) custEl.textContent = order.customer;
+        if (itemsEl) {
+            itemsEl.innerHTML = order.items.map(it =>
+                `<div>${it.qty} x ${it.name} — Rs ${(it.price * it.qty).toFixed(2)}</div>`
+            ).join("");
+        }
+        if (subEl) subEl.textContent = `Rs ${order.subtotal.toFixed(2)}`;
+        if (taxEl) taxEl.textContent = `Rs ${order.tax.toFixed(2)}`;
+        if (totalEl) totalEl.textContent = `Rs ${order.total.toFixed(2)}`;
 
-        receiptEl.setAttribute("aria-hidden", "false");
-        // Uncomment to auto-print:
-        // window.print();
+        receiptModal.setAttribute("aria-hidden", "false");
+
+        // Print / Close buttons
+        const printBtn = document.getElementById("receipt-print-btn");
+        const closeBtn = document.getElementById("receipt-close-btn");
+        if (printBtn && !printBtn._wired) {
+            printBtn.addEventListener("click", () => {
+                // Small delay to ensure modal is visible to printer
+                setTimeout(() => window.print(), 50);
+            });
+            printBtn._wired = true;
+        }
+        if (closeBtn && !closeBtn._wired) {
+            closeBtn.addEventListener("click", () => {
+                receiptModal.setAttribute("aria-hidden", "true");
+            });
+            closeBtn._wired = true;
+        }
+
+        // Click outside to close
+        receiptModal.addEventListener("click", (e) => {
+            if (e.target === receiptModal) {
+                receiptModal.setAttribute("aria-hidden", "true");
+            }
+        });
     }
 
     // Clear cart and UI
     clearCart();
     if (customerInput) customerInput.value = "";
+    const mobileCustomerInput = document.getElementById("mobile-customer-name");
+    if (mobileCustomerInput) mobileCustomerInput.value = "";
 
-    // Bootstrap toast success (fallback to alert if toast not available)
+    // Optional toast
     const toastEl = document.getElementById("checkout-toast");
     if (toastEl && window.bootstrap) {
         const bodyEl = toastEl.querySelector(".toast-body");
         if (bodyEl) bodyEl.textContent = `Order saved for: ${customerName}`;
         const bsToast = bootstrap.Toast.getOrCreateInstance(toastEl, { delay: 3000 });
         bsToast.show();
-    } else {
-        alert("Order saved for: " + customerName);
     }
+}
+
+// Generate sequential Order ID like GMO-001 and persist sequence
+function getNextOrderId() {
+  let seq = parseInt(localStorage.getItem("gm_lastOrderSeq") || "0", 10);
+
+  
+  if (!seq) {
+    try {
+      const existing = JSON.parse(localStorage.getItem("gm_orders") || "[]");
+      const max = existing.reduce((m, o) => {
+        const n = (o && typeof o.id === "string" && o.id.startsWith("GMO-"))
+          ? parseInt(o.id.slice(4), 10)
+          : 0;
+        return Math.max(m, isNaN(n) ? 0 : n);
+      }, 0);
+      seq = max;
+    } catch { /* ignore */ }
+  }
+
+  const next = seq + 1;
+  localStorage.setItem("gm_lastOrderSeq", String(next));
+  return `GMO-${String(next).padStart(3, "0")}`;
 }

@@ -15,7 +15,7 @@
     <!-- Main stylesheet -->
     <link rel="stylesheet" href="css/style.css">
 
-    
+
 </head>
 
 <body>
@@ -53,16 +53,7 @@
 
                     <div class="product-grid" id="product-grid" aria-live="polite">
                         <!-- JS will render product cards here -->
-                        <!-- <div class="product-image">
-                            <img src="./assets/Burgers/DoubleBeefSmashBurger.jpg" alt="">
-                        </div>
-                        <div class="product-info">
-                            <h4></h4>
-                            <p class="price">Rs </p>
-                            <button class="add-btn" data-id="${product.id}">
-                                Add to Order
-                            </button>
-                        </div> -->
+
                     </div>
                 </section>
 
@@ -77,9 +68,10 @@
                             <div class="cart-customer">
                                 <label for="customer-name" class="customer-label-modern">Customer Name</label>
                                 <!-- raw customer input -->
-                                <input id="customer-name" type="text" placeholder="Enter customer name..." class="customer-input-glass" />
+                                <input id="customer-name" type="text" placeholder="Enter customer name..."
+                                    class="customer-input-glass" />
                             </div>
-                            
+
                         </div>
                         <button id="cart-close" class="cart-close" aria-label="Close cart">&times;</button>
                     </div>
@@ -126,58 +118,28 @@
                 <button id="view-cart-button" class="view-cart-button">View Cart</button>
             </div>
 
-            <!-- Receipt (hidden, for print) -->
-            <aside id="receipt" class="receipt-container" aria-hidden="true">
-                <div class="receipt-header">
-                    <h2>GrillMaster</h2>
-                    <div class="receipt-meta">
-                        <div id="receipt-date">Date: </div>
-                        <div id="receipt-order-id">Order: #</div>
-                    </div>
-                </div>
 
-                <div id="receipt-items" class="receipt-items"></div>
-
-                <div class="receipt-totals">
-                    <div class="receipt-total-row">
-                        <span>Subtotal:</span>
-                        <span id="receipt-subtotal">$0.00</span>
-                    </div>
-                    <div class="receipt-total-row">
-                        <span>Tax (8%):</span>
-                        <span id="receipt-tax">$0.00</span>
-                    </div>
-                    <div class="receipt-total-row receipt-grand-total">
-                        <span>Total:</span>
-                        <span id="receipt-total">$0.00</span>
-                    </div>
-                </div>
-
-                <div class="receipt-footer text-center">
-                    <p>Thank you for dining with GrillMaster!</p>
-                </div>
-            </aside>
 
             <!-- Admin Login Modal -->
             <div id="login-modal" class="modal-overlay" aria-hidden="true">
-              <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="login-title">
-                <h3 id="login-title">Admin Login</h3>
+                <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="login-title">
+                    <h3 id="login-title">Admin Login</h3>
 
-                <form id="login-form" class="login-form">
-                  <label for="login-username">Username</label>
-                  <input id="login-username" type="text" autocomplete="username" required />
+                    <form id="login-form" class="login-form">
+                        <label for="login-username">Username</label>
+                        <input id="login-username" type="text" autocomplete="username" required />
 
-                  <label for="login-password">Password</label>
-                  <input id="login-password" type="password" autocomplete="current-password" required />
+                        <label for="login-password">Password</label>
+                        <input id="login-password" type="password" autocomplete="current-password" required />
 
-                  <div class="login-actions">
-                    <button type="submit" id="login-btn" class="btn">Sign in</button>
-                    <button type="button" id="login-cancel" class="btn btn-ghost">Cancel</button>
-                  </div>
+                        <div class="login-actions">
+                            <button type="submit" id="login-btn" class="btn">Sign in</button>
+                            <button type="button" id="login-cancel" class="btn btn-ghost">Cancel</button>
+                        </div>
 
-                  <div id="login-error" class="login-error" aria-live="polite"></div>
-                </form>
-              </div>
+                        <div id="login-error" class="login-error" aria-live="polite"></div>
+                    </form>
+                </div>
             </div>
 
             <!-- Mobile Cart Modal (separate from desktop cart) -->
@@ -185,12 +147,14 @@
                 <div class="mobile-cart-modal-content">
                     <div class="mobile-cart-header">
                         <h2>Order Summary</h2>
-                        <button id="mobile-cart-close" class="mobile-cart-close" aria-label="Close cart">&times;</button>
+                        <button id="mobile-cart-close" class="mobile-cart-close"
+                            aria-label="Close cart">&times;</button>
                     </div>
 
                     <div class="cart-customer" style="padding: 0 16px; margin-bottom: 16px;">
                         <label for="mobile-customer-name" class="customer-label-modern">Customer Name</label>
-                        <input id="mobile-customer-name" type="text" placeholder="Enter customer name..." class="customer-input-glass" />
+                        <input id="mobile-customer-name" type="text" placeholder="Enter customer name..."
+                            class="customer-input-glass" />
                     </div>
 
                     <div class="mobile-cart-items" id="mobile-cart-items" role="list">
@@ -219,6 +183,106 @@
                             <option value="other">Other</option>
                         </select>
                         <button id="mobile-checkout-button" class="checkout-button">Complete Order</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Success Modal -->
+            <div id="order-success-modal" class="modal-overlay" aria-hidden="true">
+                <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="order-success-title">
+                    <h3 id="order-success-title">Order Successful</h3>
+                    <p id="order-success-text">Your order has been placed successfully.</p>
+
+                    <div class="receipt-meta" style="margin: 12px 0;">
+                        <div id="order-success-id">Order: #</div>
+                        <div id="order-success-total">Total: Rs 0.00</div>
+                    </div>
+
+                    <div class="login-actions">
+                        <button type="button" id="order-success-ok" class="btn">OK</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Receipt Modal -->
+            <div id="receipt-modal" class="modal-overlay" aria-hidden="true">
+                <div class="modal-panel receipt-modal-panel" role="dialog" aria-modal="true"
+                    aria-labelledby="receipt-modal-title">
+                    <div class="receipt-header">
+                        <div class="receipt-logo">
+                            <img src="./assets/logo/logo.png" alt="GrillMaster" class="receipt-logo-img">
+                            <div class="receipt-logo-text">GrillMaster</div>
+                        </div>
+                        <div class="receipt-title">ORDER RECEIPT</div>
+                    </div>
+
+                    <div class="receipt-body">
+                        <div class="receipt-meta-grid">
+                            <div class="receipt-meta-item">
+                                <span class="meta-label">Order #</span>
+                                <span class="meta-value" id="modal-receipt-order-id">-</span>
+                            </div>
+                            <div class="receipt-meta-item">
+                                <span class="meta-label">Date</span>
+                                <span class="meta-value" id="modal-receipt-date">-</span>
+                            </div>
+                            <div class="receipt-meta-item">
+                                <span class="meta-label">Customer</span>
+                                <span class="meta-value" id="modal-receipt-customer">Guest</span>
+                            </div>
+                            <div class="receipt-meta-item">
+                                <span class="meta-label">Payment</span>
+                                <span class="meta-value" id="modal-receipt-payment">Cash</span>
+                            </div>
+                        </div>
+
+                        <div class="receipt-divider"></div>
+
+                        <div class="receipt-items-section">
+                            <div class="receipt-items-header">
+                                <span class="items-header-name">ITEM</span>
+                                <span class="items-header-total">AMOUNT</span>
+                            </div>
+                            <div id="modal-receipt-items" class="receipt-items-list">
+                                <!-- Items will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <div class="receipt-divider"></div>
+
+                        <div class="receipt-totals">
+                            <div class="receipt-total-row">
+                                <span class="total-label">Subtotal</span>
+                                <span class="total-amount" id="modal-receipt-subtotal">Rs 0.00</span>
+                            </div>
+                            <div class="receipt-total-row">
+                                <span class="total-label">Tax (8%)</span>
+                                <span class="total-amount" id="modal-receipt-tax">Rs 0.00</span>
+                            </div>
+                            <div class="receipt-total-row receipt-grand-total">
+                                <span class="total-label">Total</span>
+                                <span class="total-amount" id="modal-receipt-total">Rs 0.00</span>
+                            </div>
+                        </div>
+
+                        <div class="receipt-footer">
+                            <div class="receipt-thankyou">Thank you for your order!</div>
+                            <div class="receipt-contact">Visit us again at GrillMaster</div>
+                        </div>
+                    </div>
+
+                    <div class="receipt-actions">
+                        <!-- <button type="button" id="receipt-print-btn" class="btn btn-primary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2">
+                                </path>
+                                <rect x="6" y="14" width="12" height="8"></rect>
+                            </svg>
+                            Print Receipt
+                        </button> -->
+                        <button type="button" id="receipt-close-btn" class="btn btn-ghost">Close</button>
                     </div>
                 </div>
             </div>

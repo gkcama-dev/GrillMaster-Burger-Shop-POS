@@ -17,8 +17,8 @@ let adminOrders = loadData("gm_orders");
 
 // Editing state
 let editingProductId = null;
-let pendingDeleteId = null; // <- new
-let editFileData = null;    // <- new: holds chosen image in edit modal
+let pendingDeleteId = null; //new
+let editFileData = null;    //new: holds chosen image in edit modal
 
 // Image Upload Preview
 function setupImageUpload() {
@@ -65,7 +65,7 @@ function renderAdminProducts() {
         .join("");
 }
 
-// ===== Edit modal flow =====
+// Edit modal flow 
 function openEditModal(id) {
     // handle numeric/string id mismatch
     const p = adminProducts.find(x => String(x.id) === String(id));
@@ -197,7 +197,7 @@ function setupEditModal() {
 
     setupEditImageUpload();
 }
-// ===== end edit modal flow =====
+//end edit modal flow 
 
 // Populate form for editing
 function editProduct(id) {
@@ -414,7 +414,7 @@ function renderAdminOrders() {
 
         const date = order.date ? new Date(order.date).toLocaleString() : "";
         const total = Number(order.total || 0).toFixed(2);
-        const customer = order.customer || "Walk-in";
+        const customer = order.customer || "Guest";
 
         // items detail HTML
         const itemsHtml = (order.items || []).map(it =>
@@ -466,7 +466,7 @@ function initAdmin() {
     setupUIFeatures();
     setupImageUpload();
     setupConfirmModal();
-    setupEditModal(); // wire edit modal
+    setupEditModal(); 
 }
 
 document.addEventListener("DOMContentLoaded", initAdmin);

@@ -201,3 +201,51 @@ if (mobileCartModal) {
     if (e.target === mobileCartModal) closeMobileCart();
   });
 }
+
+// Success modal helpers
+const orderSuccessModal = document.getElementById("order-success-modal");
+const orderSuccessOk = document.getElementById("order-success-ok");
+const orderSuccessId = document.getElementById("order-success-id");
+const orderSuccessTotal = document.getElementById("order-success-total");
+
+function openOrderSuccess(orderId, totalAmount) {
+  if (!orderSuccessModal) return;
+  if (orderSuccessId) orderSuccessId.textContent = `Order: #${orderId}`;
+  if (orderSuccessTotal) orderSuccessTotal.textContent = `Total: Rs ${Number(totalAmount).toFixed(2)}`;
+  orderSuccessModal.setAttribute("aria-hidden", "false");
+}
+
+function closeOrderSuccess() {
+  if (orderSuccessModal) orderSuccessModal.setAttribute("aria-hidden", "true");
+}
+
+if (orderSuccessOk) {
+  orderSuccessOk.addEventListener("click", closeOrderSuccess);
+}
+if (orderSuccessModal) {
+  // Close when clicking outside the panel
+  orderSuccessModal.addEventListener("click", (e) => {
+    if (e.target === orderSuccessModal) closeOrderSuccess();
+  });
+}
+
+// Hook into Complete Order
+const checkoutButton = document.getElementById("checkout-button");
+if (checkoutButton) {
+  checkoutButton.addEventListener("click", () => {
+    // ...existing code... perform order creation/saving ...
+    // Assume you have variables: createdOrderId and computedTotal
+    // If not, compute from cart state:
+    // const computedTotal = calculateTotalFromCart(); // your existing logic
+
+    // Placeholder: derive order id and total
+    const gmOrders = loadData ? loadData("gm_orders") : [];
+    const lastOrder = gmOrders[gmOrders.length - 1];
+    const createdOrderId = lastOrder ? lastOrder.id || lastOrder.orderId || gmOrders.length : gmOrders.length + 1;
+
+    const totalEl = document.getElementById("total");
+    const computedTotal = totalEl ? (totalEl.textContent.replace(/[^\d.]/g, "") || 0) : 0;
+
+    openOrderSuccess(createdOrderId, computedTotal);
+  });
+}
