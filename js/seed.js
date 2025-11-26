@@ -230,9 +230,9 @@ const seedProducts = [
 
 // Optional seed customers
 const seedCustomers = [
-    { id: generateId(), name: "Walk-in Customer" },
-    { id: generateId(), name: "John Doe" },
-    { id: generateId(), name: "Mary Silva" }
+    { id: generateId(), name: "Guest Customer" },
+    { id: generateId(), name: "Kasun Kalhara" },
+    { id: generateId(), name: "Marry Silva" }
 ];
 
 // Load existing data

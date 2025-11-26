@@ -350,7 +350,9 @@ function getNextOrderId() {
         return Math.max(m, isNaN(n) ? 0 : n);
       }, 0);
       seq = max;
-    } catch { /* ignore */ }
+    } catch { 
+      
+    }
   }
 
   const next = seq + 1;

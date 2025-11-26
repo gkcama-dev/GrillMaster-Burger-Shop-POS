@@ -12,6 +12,7 @@ body {
   --bg-light: #1a1a1a;
   --bg-lighter: #232323;
   --accent: #ff7f2a;
+  --accent-btn: #ff6f0f;
   --accent-hover: #ff9d5c;
   --accent-light: rgba(255, 127, 42, 0.1);
   --text: #ffffff;
@@ -84,7 +85,7 @@ body {
 .btn {
   padding: 10px 20px;
   border-radius: 12px;
-  background: var(--bg-lighter);
+  background: var(--accent-btn);
   color: var(--text);
   border: 1px solid var(--border-light);
   cursor: pointer;
@@ -116,7 +117,7 @@ body {
 }
 
 .btn:hover {
-  background: var(--accent-light);
+  background: var(--accent);
   border-color: var(--accent);
   transform: translateY(-2px);
   box-shadow: var(--shadow-sm);
@@ -124,7 +125,7 @@ body {
 
 .btn-ghost {
   background: transparent;
-  color: var(--text-muted);
+  color: var(--text);
   border: 1px solid transparent;
 }
 
