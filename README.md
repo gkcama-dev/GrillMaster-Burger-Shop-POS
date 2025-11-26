@@ -1,8 +1,8 @@
 # GrillMaster POS
 
 <p>
-  <img src="assets/images/index.png" width="300" />
-  <img src="assets/images/admin.png" width="300" />
+  <img src="assets/images/index.png" width="400" />
+  <img src="assets/images/admin.png" width="400" />
 </p>
 
 ## Description
