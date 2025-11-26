@@ -605,14 +605,40 @@ body {
   }
 } */
 
+
+/* On very small widths allow it to grow */
+/* @media (max-width: 420px) {
+    .mobile-cart-bar .view-cart-button {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+} */
+
+
 .view-cart-button {
-  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
-  padding: 12px 24px;
+ appearance: none;
+  -webkit-appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  min-width: 96px;
+  border-radius: 10px;
   border: none;
-  border-radius: 12px;
-  font-weight: 600;
-  color: white;
-  transition: all 0.3s ease;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(255,107,53,0.18);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+.mobile-cart-bar .view-cart-button {
+  flex: 0 0 auto;
 }
 
 .view-cart-button:hover {
@@ -695,7 +721,8 @@ select:focus-visible {
 
 /* Modern glass morphism style */
 .customer-input-glass {
-    width: 100%;
+    width: 160%;
+    box-sizing: border-box;
     padding: 14px 16px;
     border-radius: 16px;
     border: 1px solid rgba(255, 255, 255, 0.15);
@@ -723,14 +750,74 @@ select:focus-visible {
 .customer-label-modern {
     display: block;
     margin-bottom: 10px;
-    margin-top: 20px;
+    margin-top: 30px;
     font-size: 13px;
     font-weight: 600;
     color: rgba(255, 255, 255, 0.8);
     text-transform: uppercase;
     letter-spacing: 0.8px;
-    background: linear-gradient(135deg, #fff, rgba(255, 255, 255, 0.7));
+    background: var(--accent);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
+
+/* Admin login modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(6,6,6,0.6);
+  z-index: 3000;
+  padding: 20px;
+}
+.modal-overlay[aria-hidden="false"] {
+  display: flex;
+}
+
+.modal-panel {
+  width: 420px;
+  max-width: 100%;
+  background: linear-gradient(180deg, #0f0f0f, #161616);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.04);
+  color: #fff;
+}
+
+.login-form {
+  display: grid;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.login-form label {
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+}
+
+.login-form input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.02);
+  color: #fff;
+  box-sizing: border-box;
+}
+
+.login-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.login-error {
+  margin-top: 8px;
+  color: #ffb4a6;
+  font-size: 13px;
+}
+
+
