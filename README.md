@@ -2,7 +2,12 @@
 
 <p>
   <img src="assets/images/index.png" width="400" />
+  <img src="assets/images/recipt.png" width="400" />
+  <img src="assets/images/adminlogin.png" width="400" />
   <img src="assets/images/admin.png" width="400" />
+  <img src="assets/images/products.png" width="400" />
+  <img src="assets/images/cutomers.png" width="400" />
+  <img src="assets/images/orders.png" width="400" />
 </p>
 
 ## Description
