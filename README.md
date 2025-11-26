@@ -1,6 +1,9 @@
 # GrillMaster POS
 
-![Build Status](https://img.shields.io/badge/build-passing-brightgreen) 
+<p>
+  <img src="assets/images/index.png" width="120" />
+  <img src="assets/images/admin.png" width="120" />
+</p>
 
 ## Description
 
